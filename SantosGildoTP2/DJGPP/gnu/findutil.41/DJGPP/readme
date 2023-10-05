@@ -1,0 +1,262 @@
+This is GNU Findutils 4.1 ported to DJGPP v2.0 by Eli Zaretskii.
+
+The original port was done by DJ Delorie <dj@delorie.com>.  The
+present port features the following improvements over the DJ's and the
+original FSF code:
+
+  1) All of the Findutils are ported, including `find', `locate' and
+     its auxiliary programs, and `xargs'.  (Previously, only a port of
+     `find' was included).
+
+  2) The port of `find' is much (typically, 3 to 6 times) faster than
+     the original one for most combinations of command-line arguments.
+     This is because it instructs the library function `stat' to not
+     bother checking whether every file is executable (except when you
+     use any of the options which require that information), and due
+     to an improvement in `stat' that returns the `st_nlink' field as
+     it would on Unix filesystems (see below).  The arguments that
+     require the expensive test for execute bits are: `-ls', `-fls',
+     `-perm' with an argument that includes one or more of the execute
+     permissions, and `-printf' or `-fprintf' that include the `%m'
+     descriptor; you should see a significant slow-down and a lot of
+     disk activity when any one of these is mentioned on the command
+     line.
+
+  3) Two new action arguments, `-dosexec' and `-dosok', were added to
+     `find'.  These act as `-exec' and `-ok' except that they convert
+     all forward slashes in the filenames passed to the command into
+     DOS-style backslashes.  This allows invoking DOS programs that
+     cannot grok Unix-style slashes.
+     A similar improvement to `xargs' uses the `-D' (`--dos-format')
+     option; in that case, it also implies limiting the maximum length
+     of the command-line to what DOS programs can deal with.
+
+  4) `Find' and `xargs' now catch signals and don't die if the child
+     programs they invoke are interrupted.  They now report the
+     signals of the child programs and behave in these cases like they
+     would under Unix.
+
+  5) `Find' now notes and reacts correctly to the exit codes returned
+     by the child programs, including the cases where a child couldn't
+     be run; previously, predicates involving `-exec' and `-ok' would
+     sometimes incorrectly return TRUE.
+
+  6) On MS-DOS the current directory is a global notion that affects
+     all the programs.  The previous port of `find' would sometimes
+     fail to restore the original directory in recursive searches,
+     because the original code was meant to run on Unix, where each
+     program has its own private working directory; this would cause
+     an incorrect pathname being passed to programs run with `-exec'.
+     In this port, `find' and `xargs' always keep track of the working
+     directory, even if the inferior program changes it.
+
+  7) The auxiliary programs used by the `updatedb' script are built in
+     a way that makes their image on disk as small as possible (by
+     excluding unnecessary parts of the startup code).
+
+  8) For those who don't have a sh-like shell, a batch file
+     `updatedb.bat' is provided that has most of the original
+     functionality of `updatedb.sh'.
+
+  9) The port of `locate' uses semicolon `;' to delimit pathnames in
+     `LOCATE_PATH' instead of the original colon `:' (which causes
+     conflict with DOS pathnames that include drive letters).
+
+ 10) The documentation of all the programs in the package, both the
+     man pages and the Texinfo and Info files, has been updated with
+     the essential DOS-specific details.  A formatted version of man
+     pages (files with `.man' extension) is included for those who
+     don't have a man page formatter installed.
+
+
+Some DOS-specific usage notes:
+
+  1) When passing shell wildcards and regular expressions to `find',
+     enclose them in single or double quotes, to prevent the DJGPP
+     startup code from expanding them, just like you would under Unix.
+     But don't expect backslashes to act as substitute for this
+     quoting, because DJGPP is different from Unix shell in this
+     aspect (a backslash is a pathname separator on MS-DOS, so it only
+     escapes quotes in DJGPP).  In other words, use this command line:
+
+                   find -name '*.[ch]'
+
+     instead of this:
+
+                   find -name \*.[ch]
+
+  2) In most MS-DOS shells, you will have to use `%%' instead of a
+     single percent character with the `-printf' and `-fprintf'
+     directives to `find'.  That is because `%' is special to
+     COMMAND.COM and its relatives (it is used for substituting
+     environment variables), and no quoting will make this special
+     meaning go away.  To print a literal percent sign, use 4 percent
+     characters in a row.
+
+  3) When invoking non-DJGPP programs with `xargs', either limit the
+     maximum length of a single command line with `-x' (`--max-chars')
+     option, or use the `-D' (`--dos-format') option that does it
+     automagically for you.  The maximum length is limited by the DOS
+     Exec function to 126 characters plus the length of the command
+     name.  If you don't use one of these options, you risk that the
+     program called by `xargs' won't see some of the filenames.
+
+  4) If you need to process the files with commands internal to the
+     shell (like `dir' or `del' in COMMAND.COM), you must call the
+     shell to do it, because `find' and `xargs' invoke child programs
+     in a way that doesn't support internal commands (this is a
+     feature of the original code).  For example, the following
+     command will rename all .cpp files in all of the subdirectories
+     of the current directory to .cc and print their names:
+
+      find . -name '*.cpp' -dosexec command /c ren {} '*.cc' ; -print
+
+     Unlike on Unix, to invoke a batch file with `-exec', you'll also
+     need to call COMMAND.COM.
+
+  5) MSDOS/WINDOWS also provides a find binary. To avoid that this
+     stock find.exe is executed you must edit your autoexec.bat and
+     put DJGPP's bin subdirectory before the DOS/WINDOWS subdirectory
+     in the path.
+
+
+Rebuilding Findutils
+
+If you want to rebuild Findutils, you should make sure that your C
+library includes an improved version of `stat'.  (Without this patch,
+`find' will still work, but will run 2 to 4 times slower.)  If your
+library was originally created after April 15, 1996, you don't need
+this patch; otherwise, apply the patch at the end of this document to
+the file src/libc/posix/sys/stat/stat.c (relative to the main DJGPP
+installation directory), compile it and put it into the library before
+building Findutils.
+
+To build Findutils, unzip the source archive with UNZIP or PKUNZIP
+(use -d with PKUNZIP), chdir to the directory findutil.41 that was
+created when you unzipped the archive, and type these command:
+
+        make
+
+This will build all the executables in the `find', `locate' and
+`xargs' subdirectories.  You can now install them somewhere along your
+PATH. You can also install the binaries by running the command:
+
+        make install prefix='${DJDIR}'
+
+This package is already configured for DJGPP. If you need to reconfigure
+it you will have to run the following commands:
+
+        make distclean
+
+       djgpp\config
+
+To create the database for `locate', chdir to the directory where you
+want to keep the database, and type this command:
+
+        updatedb
+
+or, if you have a port of Unix-like shell installed:
+
+        sh -c updatedb
+
+The updatedb shell script will place the database into the
+$DJDIR/var/locatedb.dat file where $DJDIR stands for the
+appropiate prefix of your DJGPP installation tree.
+
+If you have more than one disk that you want to include in the
+`locate' database, mention the root directory of every disk on the
+command line, like this:
+
+        updatedb c:/ d:/ e:/
+
+
+If you see any DOS-specific problems, please report them to me.  The
+file `DJGPP\diffs' shows what changes I've done to the original code.
+
+		Enjoy,
+
+			Eli Zaretskii <eliz@is.elta.co.il>
+
+----------------------------------------------------------------------
+
+Here is that patch for the library `stat' function I promised above:
+
+*** stat.c~2	Wed Mar 20 00:53:14 1996
+--- stat.c	Sat Apr 13 12:12:56 1996
+*************** stat_assist(const char *path, struct sta
+*** 572,578 ****
+            /* Set regular file bit.  */
+            statbuf->st_mode |= S_IFREG;
+  
+!           if ( (_djstat_flags & _STAT_EXECBIT) == 0 )
+              {
+                /* Set execute bits based on file's extension and
+                   first 2 bytes. */
+--- 572,578 ----
+            /* Set regular file bit.  */
+            statbuf->st_mode |= S_IFREG;
+  
+!           if ((_djstat_flags & _STAT_EXECBIT) != _STAT_EXECBIT)
+              {
+                /* Set execute bits based on file's extension and
+                   first 2 bytes. */
+*************** almost_done:
+*** 723,728 ****
+--- 723,733 ----
+           the disk pool.  Still, it is a good approximation of the
+           actual directory size.
+  
++          We also take this opportunity to return the number of links
++          for directories as Unix programs expect it to be: the number
++          of subdirectories, plus 2 (the directory itself and the ``.''
++          entry).
++ 
+           The (max) size of the root directory could also be taken from
+           the disk BIOS Parameter Block (BPB) which can be obtained
+           by calling IOCTL (INT 21/AH=44H), subfunction 0DH, minor
+*************** almost_done:
+*** 741,754 ****
+        else
+          strcat(search_spec, "\\*.*");
+  
+        if (!__findfirst(search_spec, &ff_blk, ALL_FILES))
+!         for (i = 1; !__findnext(&ff_blk); ++i)
+!           ;
+  
+        /* In non-root directories, don't count the ``.'' and ``..''
+!          entries, so that empty directories will be shown as such.  */
+        if (statbuf->st_ino != 1)
+!         i -= 2;
+  
+        statbuf->st_size = i * sizeof(struct full_dirent);
+      }
+--- 746,774 ----
+        else
+          strcat(search_spec, "\\*.*");
+  
++       /* For the root directories we simulate the missing
++        ``.'' entry so that root won't be special.  */
++       if (statbuf->st_ino == 1)
++       statbuf->st_nlink = 2;
++ 
+        if (!__findfirst(search_spec, &ff_blk, ALL_FILES))
+!         {
+!           statbuf->st_nlink++;
+!           for (i = 1; !__findnext(&ff_blk); ++i)
+!             if (ff_blk.ff_attrib & 0x10)
+!               statbuf->st_nlink++;
+!         }
+  
+        /* In non-root directories, don't count the ``.'' and ``..''
+!          entries when computing the size, so that empty directories
+!        will be shown as such.  The ``..'' entry shouldn't be
+!        counted for the st_nlink purposes, therefore we subtract
+!        1 from the result of the above loop.  */
+        if (statbuf->st_ino != 1)
+!         {
+!           i -= 2;
+!           statbuf->st_nlink--;
+!         }
+  
+        statbuf->st_size = i * sizeof(struct full_dirent);
+      }

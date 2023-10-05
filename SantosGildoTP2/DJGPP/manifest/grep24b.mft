@@ -1,0 +1,11 @@
+gnu/grep-2.4/djgpp/README
+gnu/grep-2.4/NEWS
+bin/grep.exe
+bin/fgrep.exe
+bin/egrep.exe
+info/grep.info
+info/grep.1
+info/fgrep.1
+info/egrep.1
+manifest/grep24b.mft
+manifest/grep24b.ver

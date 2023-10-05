@@ -1,0 +1,15 @@
+bin/cmp.exe
+bin/diff.exe
+bin/diff3.exe
+bin/sdiff.exe
+gnu/diffutil.287/README
+gnu/diffutil.287/NEWS
+gnu/diffutil.287/ChangeLog
+info/diff.info
+man/cat1/cmp.1
+man/cat1/diff.1
+man/cat1/diff3.1
+man/cat1/sdiff.1
+manifest/dif287b.ver
+manifest/dif287b.mft
+manifest/dif287b.dsm

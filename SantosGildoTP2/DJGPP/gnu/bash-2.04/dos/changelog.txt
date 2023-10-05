@@ -1,0 +1,222 @@
+This file lists the changes made since beginning work on porting Bash 2.04.
+
+Changes for May 10, 2001:
+
+* execute_cmd.c (execute_disk_command): Free the array holding the argument
+  pointers.
+  (execute_command_internal): When a command has failed in a subshell and
+  'set -e' has been used, set subshell_exit_value, subshell_exit_builtin,
+  and subshell_skip_commands and then return success.
+* bashline.c (bash_completer_word_break_characters): Remove ':'.
+
+Changes for April 9, 2001:
+
+* lib/dos/dosutil.c (dosutil_encode_drivename): Don't encode paths already
+  in '/dev/x/foo' form and strip drive letters if they have them.
+* general.c (make_absolute): Don't add drive letter to '/dev' paths.
+
+Changes for March 29, 2001:
+
+* lib/dos/dosexec.c: Merge change from DJGPP CVS to better handle
+  executables with the ".com" extension.
+
+Changes for March 26, 2001:
+
+* builtins/general.c (make_absolute): Convert '/foo' to 'x:/foo'.
+
+Changes for February 12, 2001:
+
+* builtins/cd.def (change_to_directory): Remove DOS code.
+* general.c (make_dos_relative_path_absolute): New.
+  (make_absolute): Use it.
+* lib/dos/dosutil.c (dosutil_encode_drivename): Allocate space for the
+  trailing '\0'.
+
+Changes for February 11, 2001:
+
+* builtins/cd.def (change_to_directory): Simplify. Use IS_ABSOLUTE_PATH
+  to decide when to use getcwd.
+
+Changes for February 9, 2001:
+
+* lib/dos/dosexec.c: Import change from DJGPP CVS.
+
+Changes for January 15, 2001:
+
+* subst.c (command_substitute): Don't goto error_exit when setjmp returns
+  from a longjmp call.
+
+Changes for January 10, 2001:
+
+* lib/dos/dosutil.c (dosutil_make_response_file): Generate correct filename
+  for mktemp.
+* lib/dos/dosutil.c (executable_suffixes): Change "#if 0" to "#if 1".
+
+Changes for January 10, 1001:
+
+* lib/dos/dosutil.c (need_fix_variables): Add TMPDIR.
+
+Changes for August 25th, 2000:
+
+* lib/readline/complete.c (filename_completion_function): Delete handling of
+  old '//x/' syntax and replace with handling of '/dev/x/' syntax.
+* general.c (make_absolute, absolute_pathname): Use IS_ABSOLUTE_PATH.
+
+Changes for August 23, 2000:
+
+* redir.c (here_document_to_fd): Commit here document to disk before opening
+  it again as read-only.
+  
+Changes for July 8th, 2000:
+
+* lib/dos/opentmp.c (_closetmp): Call perror if errno is set after call to
+  remove.
+
+Changes for July 3rd, 2000:
+
+* lib/dos/dosexec.c (dosexec_find_on_system): While copying PATH, change
+  backslashes to slashes.
+
+Changes for June 16th, 2000:
+
+* subst.c (command_substitute): Removed code that set file descriptors
+  returned by pipe() to -1.
+
+Changes for June 5th, 2000:
+
+* builtins/exec.def (exec_builtin): Unconditionally use search_for_command.
+
+Changes for June 1st, 2000:
+
+* findcmd.c (strip_pathname): Renamed to fix_bin_dir_path.
+  
+Changes for May 30th, 2000:
+
+* lib/dos/dosutil.c (find_executable_ext): Renamed from
+  dosutil_add_executable_suffix.
+* hashcmd.c (find_hashed_command): Adjust.
+* variables.c (get_bash_name): Adjust.
+* test.c (unary_test): Adjust.
+* findcmd.c (find_absolute_program): Use find_executable_ext.
+  (find_in_path_element): Likewise.
+* lib/dos/dosexec.c: New. Replaces libc version.
+* shell.c (dos_init): New.
+* lib/dos/tminit.c: Moved here from top directory.
+* lib/dos/djrefs.c: New. Explicitly references DJGPP libc replacements
+  so they get pulled in.
+
+Changes for May 29th, 2000:
+
+* execute_cmd (execute_simple_command): Return the result code for a
+  null command instead of exiting the program.
+  
+Changes for May 23rd, 2000:
+
+* findcmd.c (search_for_command): Call find_absolute_program for absolute
+  files so the right extension gets added.
+  (find_in_absolute_program): If searching for an extensionless file and
+  the file exists, add a period to keep spawn* from adding an extension.
+  (find_in_path_element): Likewise.
+
+Changes for May 22nd, 2000:
+
+* builtins/read.def (read_builtin): Set input_is_pipe to 1 for DJGPP.
+* execute_cmd.c (do_piping): Move lseek command inside stdin redirect code
+  where it belongs.
+
+Changes for May 18th, 2000:
+
+* lib/dos/dosutil.c (dosutil_expand_words): If the expanded path is longer
+  than the path it is replacing, then free the old string and create
+  a new one.
+* execute_cmd (execute_simple_command): Handle that lastarg may have been
+  freed and replaced after path expansion.
+
+Changes for May 8th, 2000:
+
+* lib/readline/histexpand.c (history_find_word): Set wind to -1. If wind
+  is still -1 after returning from history_tokenize_internal,
+  set s to NULL.
+
+Changes for May 2nd, 2000:
+
+* subst.c (list_string): Install Bash patch #5.
+  (paramater_brace_expand): Install patch #6.
+  (read_comsub): Install patch #7.
+  parse.y: Likewise.
+
+Changes for April 27th, 2000:
+
+* execute_cmd.c (execute_simple_command): Remove 'use_subshell' code and
+  adjust.
+
+Changes for April 25th, 2000:
+
+* tminit.c: Use "\x1b[0" for non-shifted key encodings for Readline 4.1.
+
+Changes for April 23rd, 2000:
+
+* execute_cmd.c (shell_execve): Remove response file support from here...
+* lib/dos/bshspawn.c (bash_spawnve): ...and add it here.
+* lib/dos/bshspawn.c (bash_spawnve): Add calls to
+  dosutil_check_dpmi_selectors and dosutil_free_dpmi_selectors. Add
+  other DJGPP-specific code from Bash 2.03's shell_execve_dos.
+
+Changes for April 22nd, 2000:
+
+* dosutil.h (struct oldenvbuf): Add field for subst_assign_varlist.
+  lib/dos/nofork.c (dosutil_save_all_environment, restore_all_environment):
+  Use it.
+* subst.c (expand_word_list_internal): Revert change from April 12th.
+* lib/dos/bshspawn.c (bash_spawnve): Compare sample to "#!" and not "!#".
+
+Changes for April 21st, 2000:
+
+* subst.c (make_named_pipe): Revert change.
+  redir.c (here_document_to_fd): Revert change.
+* lib/dos/dosutil.c: Change meaning of 'dosutil_tmpdir' to that in Bash 2.03.
+* lib/dos/opentmp.c (fsext_handler): Do not call _duptmp when the command to
+  fcntl isn't F_DUPFD.
+* dosutil.c (dosutil_maybe_encode_drivename): New. Convert paths to encoded
+  form when 'PATH_SEPARATOR=:'.
+* builtins/common.c (get_working_directory): Use dosutil_maybe_encode_drivename.
+
+Changes for April 20th, 2000:
+
+* subst.c (make_named_pipe): Fix to handle change to dosutil_tmpdir.
+
+Changes for April 19th, 2000:
+
+* redir.c (here_document_to_fd): Fix to handle change to dosutil_tmpdir.
+
+Changes for April 16th, 2000:
+
+* lib/glob/fnmatch.c (brackmatch): Update to latest Bash patch #4
+
+Changes for April 12th, 2000:
+
+* subst.c (expand_word_list_internal): Assign subst_assign_varlist to a
+  temporary variable so it can be deleted properly in DJGPP's non-fork
+  environment.
+
+Changes for April 5th, 2000:
+
+* subst.c (match_pattern_char): Install official Bash 2.04 patch 1. Fixes
+  '+(pattern)' not working in the expression '${parameter/pattern/string}'.
+  (parameter_brace_expand): Install official Bash 2.04 patch 2. Fixes
+  problem with expanding '${parameter:?word}'.
+* bashline.c (rl_filename_quote_characters): Install official
+  Bash 2.04 patch 3. Add '{' to characters in a filename that are quoted.
+* lib/glob/fnmatch.c (brackmatch): Install official Bash 2.04 patch 4.
+  Fixes 'fnmatch ("/tmp", "[/\\\\]*]")' not returning a match.
+
+Changes for March 26th, 2000:
+
+* lib/dos/pipe.c: Rework to use mktemp correctly.
+
+Changes for March 24th, 2000:
+
+* Initial port. Code handling SYSROOT, PATH_EXPAND, and PATH_SLASH were
+  removed. DOS-specific code dealing with finding and executing disk commands
+  was redone.
+

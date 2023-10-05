@@ -1,0 +1,11 @@
+bin/sed.exe
+gnu/sed-4.1-5/ChangeLog
+gnu/sed-4.1-5/NEWS
+gnu/sed-4.1-5/README
+gnu/sed-4.1-5/djgpp/README
+gnu/sed-4.1-5/djgpp/README.ORIG
+info/sed.info
+man/cat1/sed.1
+manifest/sed415b.ver
+manifest/sed415b.mft
+manifest/sed415b.dsm

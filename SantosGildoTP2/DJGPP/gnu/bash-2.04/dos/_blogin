@@ -1,0 +1,49 @@
+# ~/.bash_login
+
+# this function sources file if exists.
+_fsource ()
+{
+  if [ -f "$1" ]; then
+    source "$1"; return 1
+  else
+    return 0
+  fi
+}
+
+# this function prints result if nonzero value
+_prompt_command ()
+{
+  local status="$?"
+  if [ $status != 0 ]; then
+    echo "[exited with $status]" 1>&2
+  fi
+}
+
+# bash does not source .bashrc if find .bash_login
+LOGIN_SHELL=true
+if _fsource ~/.bashrc; then
+  if _fsource ~/_bashrc; then
+    : # clear status
+  fi
+fi
+
+SIMPLE_BACKUP_SUFFIX='~'
+VERSION_CONTROL=simple
+export SIMPLE_BACKUP_SUFFIX VERSION_CONTROL
+
+# hostname is external command, you need sh-utils (shl112b.zip).
+HOST=${HOST-$(hostname | tr 'A-Z' 'a-z' | sed -e 's/ *$//g')}
+# PS1 stores prompt string
+PS1='${HOST}#${SHLVL}(\w)\$ '
+export PS1 HOST
+
+# this variable is evaluated each time it prints prompt
+PROMPT_COMMAND=_prompt_command
+
+# ignore ^D until 10 times
+ignoreeof=10
+
+# move to home directory
+cd $HOME
+
+echo "Welcome to bash version $BASH_VERSION"

@@ -1,0 +1,8 @@
+bin/indent.exe
+bin/texinfo2man.exe
+info/indent.info
+gnu/indent-2.2-9/djgpp/README
+man/cat1/indent.1
+manifest/ind229b.dsm
+manifest/ind229b.ver
+manifest/ind229b.mft

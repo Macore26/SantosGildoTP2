@@ -1,0 +1,53 @@
+#
+# DSM for GNU Diffutils 2.8.7 binaries.
+# Written by Eli Zaretskii <eliz@is.elta.co.il> 2004-09-08
+#
+
+dsm-file-version: 1.0
+dsm-name: diff281b
+dsm-version: 0.4.0
+dsm-type: binaries
+
+dsm-author: Eli Zaretskii
+dsm-author-email: eliz@is.elta.co.il
+
+name: diffutils
+version: 2.8.7
+manifest: diff287b
+documentation-dsm: diff287d
+sources-dsm: diff287s
+short-description: GNU Diffutils
+long-description: GNU Diffutils are programs for finding differences \
+between files
+
+license: GNU GPL
+# author.
+author: Paul Eggert
+# author.
+author: David MacKenzie
+# author.
+author: Richard Stallman
+# This is the current maintainer (until we have a maintainer: tag).
+author-email: eggert@twinsun.com
+# For reporting bugs
+mailing-list: bug-gnu-utils@gnu.org
+ftp-site: ftp://ftp.gnu.org/pub/gnu/diffutils
+# For discussing DJGPP- and DOS/Windows-specific aspects
+mailing-list: djgpp@delorie.com
+newsgroup: comp.os.msdos.djgpp
+
+porter: Eli Zaretskii
+porter-email: eliz@is.elta.co.il
+
+simtelnet-path: v2gnu/
+zip: diff287b.zip
+
+pre-install-readme: gnu/diffutil.287/NEWS
+
+requires: DPMI 0.9
+replaces: diffutils < 2.8.7
+
+# For reading the docs.
+depends-on: info-reader
+depends-on: man
+depends-on: less

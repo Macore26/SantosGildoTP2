@@ -1,0 +1,10 @@
+gnu/less-374/README
+gnu/less-374/NEWS
+bin/less.exe
+bin/lesskey.exe
+bin/lessecho.exe
+man/cat1/less.1
+man/cat1/lesskey.1
+manifest/lss374b.mft
+manifest/lss374b.dsm
+manifest/lss374b.ver

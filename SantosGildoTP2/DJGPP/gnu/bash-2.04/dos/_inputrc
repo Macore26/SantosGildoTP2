@@ -1,0 +1,56 @@
+# sample _inputrc for bash's readline
+$if BASH
+# variables
+set bell-style on
+set visible-stats on
+
+# Key Bindings
+#
+# Translation characters for extended keys
+# w/o SHIFT, CTRL, or ALT = "\e["
+# w/ SHIFT                = "\e[1"
+# w/ CTRL                 = "\e[2"
+# w/ ALT                  = "\e[3"
+
+# then add for the key:
+# "A" = Up Arrow
+# "B" = Down Arrow
+# "C" = Right Arrow
+# "D" = Left Arrow
+# "E" = Insert
+# "F" = Delete
+# "G" = Home
+# "H" = End
+# "I" = Page Up
+# "J" = Page Down
+# "XA" = F1, "XB" = F2, "XC" = F3, "XD" = F4,  "XE" = F5,  "XF" = F6
+# "XG" = F7, "XH" = F8, "XI" = F9, "XJ" = F10, "XK" = F11, "XL" = F12
+#
+
+"\e[A": previous-history
+"\e[B": next-history
+"\e[C": forward-char
+"\e[D": backward-char
+"\e[G": beginning-of-line
+"\e[H": end-of-line
+"\e[I": history-search-backward
+"\e[J": history-search-forward
+"\e[F": delete-char
+"\e[2B": backward-word
+"\e[2C": forward-word
+"\e[2I": beginning-of-history
+"\e[2J": end-of-history
+
+"\e[XA": "Function Key 1"
+"\e[XB": "Function Key 2"
+"\e[XC": "Function Key 3"
+"\e[1XA": "SHIFT + Function Key 1"
+"\e[1XB": "SHIFT + Function Key 2"
+"\e[1XC": "SHIFT + Function Key 3"
+"\e[2XA": "CTRL + Function Key 1"
+"\e[2XB": "CTRL + Function Key 2"
+"\e[2XC": "CTRL + Function Key 3"
+"\e[3XA": "ALT + Function Key 1"
+"\e[3XB": "ALT + Function Key 2"
+"\e[3XC": "ALT + Function Key 3"
+$endif

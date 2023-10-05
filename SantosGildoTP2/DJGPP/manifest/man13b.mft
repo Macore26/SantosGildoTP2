@@ -1,0 +1,6 @@
+src/utils/man/README
+src/utils/man/NEWS
+bin/man.exe
+man/cat1/man.1
+manifest/man13b.mft
+manifest/man13b.ver

@@ -1,0 +1,10 @@
+bin/patch.exe
+gnu/patch-2.5-9/NEWS
+gnu/patch-2.5-9/README
+gnu/patch-2.5-9/ChangeLog
+gnu/patch-2.5-9/djgpp/README
+man/cat1/patch.1
+gnu/patch-2.5-9
+manifest/pat259b.ver
+manifest/pat259b.mft
+manifest/pat259b.dsm

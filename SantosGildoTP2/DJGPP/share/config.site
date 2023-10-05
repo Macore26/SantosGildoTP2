@@ -1,0 +1,48 @@
+#! /bin/sh
+# Version 1.3 by Mark E. Updated April 9, 2001.
+# Modify or replace this file only if you know what your doing.
+
+# Sanity check
+
+if test "x${DJDIR}" = "x"; then
+  echo "Your DJGPP installation is not setup correctly. DJDIR is not set."
+  exit 1
+fi
+
+# The root of the DJGPP tree serves as the default prefix.
+# Allow for cases where a top-level Cygnus/Red Hat-style configure script
+# calls Autoconf configure scripts in subdirectories.
+if test "x$ac_default_prefix" = "x/usr/local"; then
+ac_default_prefix="/dev/env/DJDIR"
+fi
+
+# This is required for config.status script to be run, since
+# ./configure runs it by invoking ${CONFIG_SHELL-/bin/sh}
+
+export CONFIG_SHELL='/dev/env/DJDIR/bin/sh.exe'
+export SHELL=${CONFIG_SHELL}
+
+# $INSTALL must be an absolute path name, otherwise config.status
+# will try to prepend ./ and ../ to it when it goes into subdirs.
+
+export INSTALL=${INSTALL='/dev/env/DJDIR/bin/ginstall -c'}
+
+# Help out libtool
+ac_exeext=".exe"
+export lt_cv_sys_max_cmd_len=12288
+
+# Variables to help DJGPP tools be detected.
+if test -n "${PACKAGE_VERSION}" ; then
+ac_executable_extensions=".exe"
+export PATH_SEPARATOR=;
+else
+# Settings for Autoconf 2.50 and above.
+export PATH_SEPARATOR=:
+fi
+
+export TEST_FINDS_EXE=Y
+
+# Force the test for 'ln -s' to report no.
+export LN_S="cp -p"
+ac_cv_prog_LN_S="cp -p"
+

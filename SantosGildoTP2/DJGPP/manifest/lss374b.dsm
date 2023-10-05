@@ -1,0 +1,46 @@
+#
+# DSM for Gnu Less Version 374 binaries
+# Written by Eli Zaretskii <eliz@is.elta.co.il> 2002-04-05
+#
+
+dsm-file-version: 1.1
+dsm-name: lss374b
+dsm-version: 0.4.0
+dsm-type: binaries
+
+dsm-author: Eli Zaretskii
+dsm-author-email: eliz@is.elta.co.il
+
+name: less
+version: 374
+manifest: lss374b
+sources-dsm: lss374s
+short-description: Text file browser
+long-description: Less is a paginator similar to more and pg with better\
+features like backwards as well as forward scrolling and searching for\
+regular expressions within the file being viewed.
+license: GNU GPL
+author: Mark Nudelman
+author-email: markn@greenwoodsoftware.com
+web-site: http://www.greenwoodsoftware.com/less
+# For reporting bugs
+mailing-list: bug-less@gnu.org
+# For discussing DJGPP- and DOS/Windows-specific aspects
+mailing-list: djgpp@delorie.com
+newsgroup: comp.os.msdos.djgpp
+
+porter: Eli Zaretskii
+porter-email: eliz@is.elta.co.il
+
+simtelnet-path: v2gnu/
+zip: lss374b.zip
+
+requires: DPMI 0.9
+replaces: less < 374
+
+pre-install-readme: gnu/less-374/NEWS
+
+# This removes the old Less man pages from the Info directory
+# (the man pages now install under the man/ subdirectory).
+builtin-pre-install-script: command:\
+ rm -f /dev/env/DJDIR/info/less.1 /dev/env/DJDIR/info/lesskey.1

@@ -1,0 +1,113 @@
+Dies ist find.info, hergestellt von Makeinfo Version 4.0 aus
+find.texinfo.
+
+START-INFO-DIR-ENTRY
+* Finding Files: (find).        Listing and operating on files
+                                that match certain criteria.
+END-INFO-DIR-ENTRY
+
+   This file documents the GNU utilities for finding files that match
+certain criteria and performing various operations on them.
+
+   Copyright (C) 1994 Free Software Foundation, Inc.
+
+   Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+   Permission is granted to copy and distribute modified versions of
+this manual under the conditions for verbatim copying, provided that
+the entire resulting derived work is distributed under the terms of a
+permission notice identical to this one.
+
+   Permission is granted to copy and distribute translations of this
+manual into another language, under the above conditions for modified
+versions, except that this permission notice may be stated in a
+translation approved by the Foundation.
+
+
+Indirect:
+find.i1: 1086
+find.i2: 50880
+
+Tag Table:
+(Indirect)
+Node: Top1086
+Node: Introduction1899
+Node: Scope3070
+Node: Overview4990
+Node: find Expressions6748
+Node: Finding Files8368
+Node: Name8834
+Node: Base Name Patterns9458
+Node: Full Name Patterns9996
+Node: Fast Full Name Search10980
+Node: Shell Pattern Matching13180
+Node: Links15245
+Node: Symbolic Links15675
+Node: Hard Links16622
+Node: Time17658
+Node: Age Ranges18173
+Node: Comparing Timestamps19106
+Node: Size20385
+Node: Type21198
+Node: Owner22010
+Node: Permissions22823
+Node: Contents23508
+Node: Directories24676
+Node: Filesystems27345
+Node: Combining Primaries With Operators29100
+Node: Actions30401
+Node: Print File Name30948
+Node: Print File Information31552
+Node: Escapes33931
+Node: Format Directives34591
+Node: Name Directives35598
+Node: Ownership Directives36129
+Node: Size Directives36554
+Node: Location Directives36850
+Node: Time Directives37401
+Node: Time Formats38266
+Node: Time Components38693
+Node: Date Components39186
+Node: Combined Time Formats39996
+Node: Run Commands40480
+Node: Single File40833
+Node: Multiple Files42845
+Node: Unsafe File Name Handling44774
+Node: Safe File Name Handling46324
+Node: Limiting Command Size47009
+Node: Interspersing File Names49821
+Node: Querying50880
+Node: Adding Tests52288
+Node: Common Tasks54726
+Node: Viewing And Editing55142
+Node: Archiving55653
+Node: Cleaning Up57285
+Node: Strange File Names58846
+Node: Fixing Permissions60476
+Node: Classifying Files61035
+Node: Databases61753
+Node: Database Locations62367
+Node: Database Formats64005
+Node: New Database Format64656
+Node: Sample Database66218
+Node: Old Database Format66857
+Node: File Permissions68639
+Node: Mode Structure69207
+Node: Symbolic Modes71335
+Node: Setting Permissions72332
+Node: Copying Permissions74868
+Node: Changing Special Permissions75669
+Node: Conditional Executability77504
+Node: Multiple Changes78121
+Node: Umask and Protection79768
+Node: Numeric Modes80857
+Node: Reference82687
+Node: Invoking find82985
+Node: Invoking locate84032
+Node: Invoking updatedb84715
+Node: Invoking xargs85484
+Node: Primary Index88829
+
+End Tag Table

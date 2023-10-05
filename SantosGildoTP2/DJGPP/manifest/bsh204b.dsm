@@ -1,0 +1,42 @@
+#
+# DSM for bash 2.04 binaries
+#
+
+dsm-file-version: 1.1
+dsm-name: bsh204b
+dsm-version: 0.4.0
+dsm-type: binaries
+
+dsm-author: Richard Dawe
+dsm-author-email: richdawe@bigfoot.com
+
+name: bash
+version: 2.04
+manifest: bsh204b
+sources-dsm: bsh204s
+documentation-dsm: bsh204d
+short-description: GNU Bourne-Again SHell
+license: GNU GPL
+
+author: Chet Ramey
+
+# Report Bash bugs here
+mailing-list: bug-bash@gnu.org
+
+# DJGPP specific discussion
+mailing-list: djgpp@delorie.com
+
+porter: Mark E.
+porter-email: snowball3@bigfoot.com
+porting-web-site: http://members.xoom.com/snowball3/djgpp/
+
+simtelnet-path: v2gnu/
+zip: bsh204b.zip
+changelog: gnu/bash-2.04/CWRU/ChangeLog
+changelog: gnu/bash-2.04/dos/changelog.txt
+
+replaces: bash < 2.04
+
+# This updates the info/DIR menu
+builtin-post-install-script: command:\
+  install-info --info-dir=/dev/env/DJDIR/info /dev/env/DJDIR/info/bash.info

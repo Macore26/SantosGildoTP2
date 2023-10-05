@@ -1,0 +1,99 @@
+This is a port of GNU Patch 2.5.9 to MSDOS/DJGPP.
+
+1.:     DJGPP specific changes.
+        =======================
+
+        As usual, all djgpp specific files (config.bat, diffs, readme files,
+        etc.) are located in the /djgpp subdir. The dir /pc/djgpp contains
+        djgpp specific files shipped with the original FSF distribution and
+        are no longer used.
+
+
+2.:     Installing the binary package.
+        ==============================
+
+2.1.:   Copy the binary distribution into the top DJGPP installation directory
+        and unzip it running *ONE* of the following commands:
+          unzip32 pat259b.zip      or
+          djtarx pat259b.zip       or
+          pkunzip -d pat259b.zip
+
+        For futher information about GNU Patch please read the man page.
+
+
+3.:     Building the binaries from sources.
+        ===================================
+
+3.1.:   To build the binaries you will need the following binary packages:
+          djdev203.zip (patch level 1, see the djdev203.dsm)
+          bsh204b.zip, gcc410b.zip, bnu2161b.zip, mak3791b.zip,
+          fil41b.zip, shl2011b.zip, txt20b.zip, txi48b.zip,
+          grep24b.zip, sed415b.zip and dif287b.zip.
+
+        All this packages can be found in the v2gnu directory of ftp.delorie.com
+        and any mirror. The above cited packages are those ones I have used to
+        build the binaries from this sources. Previuos versions of those packages
+        may do the job as well but I have not tested this.
+
+3.2.:   Create a temporary directory. Copy the source package: pat259s.zip
+        into the directory and unzip it runnig ONE of the following commands:
+          unzip32 pat259s.zip      or
+          djtarx pat259s.zip       or
+          pkunzip -d pat259s.zip
+
+3.3.:   This package does not have NLS support.
+        If for some reason you want to reconfigure the package cd into the top
+        srcdir (patch-2.5-9) and run the following commands:
+          del djgpp\config.cache
+          make distclean
+          djgpp\config
+
+        Please note that you *MUST* delete the config.cache file in the djgpp
+        subdir or you will not really reconfigure the sources because the
+        configuration informations will be read from the cache file instead
+        of being newly computed.
+        To build the programs in a directory other than where the sources are,
+        you must add the parameter that specifies the source directory,
+        e.g:
+          x:\src\gnu\patch-2.5-9\djgpp\config x:/src/gnu/patch-2.5-9
+
+        Lets assume you want to build the binaries in a directory placed on a
+        different drive (z:\build in this case) from where the sources are,
+        then you will run the following commands:
+          z:
+          md \build
+          cd \build
+          x:\src\gnu\patch-2.5-9\djgpp\config x:/src/gnu/patch-2.5-9
+
+        The order of the options and the srcdir option does not matter. You
+        *MUST* use forward slashes to specify the source directory.
+
+        The batch file will set same environment variables, make MSDOS specific
+        modifications to the Makefile.ins and supply all other needed options
+        to the configure script.
+
+
+3.4.:   To compile the package run from the top srcdir the command:
+          make
+
+3.5.:   To install the binary, info docs and man pages run the following command
+        from the top srcdir:
+          make install
+
+        This will install the products into your DJGPP installation tree given
+        by the default prefix "/dev/env/DJDIR". If you prefer to install them
+        into some other directory you will have to set prefix to the appropiate
+        value.
+        Example:
+          make install prefix=z:/some/other/dir
+
+
+
+
+        Send sed specific bug reports to <bug-patch@gnu.org>.
+        Send suggestions and bug reports concerning the DJGPP port
+        to comp.os.msdos.djgpp or <djgpp@delorie.com>.
+
+Enjoy.
+
+          Guerrero, Juan Manuel <juan.guerrero@gmx.de>

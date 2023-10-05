@@ -1,0 +1,58 @@
+#
+# DSM for Patch 2.5.9 binaries
+# Written by Juan Manuel Guerrero <juan.guerrero@gmx.de> 2006-04-07
+#
+
+dsm-file-version: 1.3
+dsm-name: pat259b
+dsm-version: 0.4.0
+dsm-type: binaries
+
+dsm-author: Juan Manuel Guerrero
+dsm-author-email: juan.guerrero@gmx.de
+
+name: patch
+version: 2.5.9
+manifest: pat259b
+sources-dsm: pat259s
+short-description: GNU Patch version 2.5.9
+long-description: GNU Patch is a program to patch program sources\n\
+by applying diffs produced by the `diff' utility.
+license: GNU GPL
+author: Larry Wall
+author: Wayne Davison
+author: David MacKenzie
+maintainer: Paul Eggert
+maintainer-email: eggert@twinsun.com
+# For reporting bugs
+mailing-list: bug-gnu-utils@gnu.org
+# For getting help in using Make
+mailing-list: help-gnu-utils@gnu.org
+# For discussing DJGPP- and DOS/Windows-specific aspects
+mailing-list: djgpp@delorie.com
+newsgroup: comp.os.msdos.djgpp
+
+porter: Juan Manuel Guerrero
+porter-email: juan.guerrero@gmx.de
+
+simtelnet-path: v2gnu/
+zip: pat259b.zip
+changelog: gnu/patch-2.5-9/ChangeLog
+
+pre-install-readme: gnu/patch-2.5-9/djgpp/README
+
+requires: DPMI 0.9
+replaces: patch < 2.5.9
+
+# To DTRT with setting time stamps of patched files
+depends-on: djtzn
+# For reading docs
+depends-on: man
+depends-on: less
+# To apply diffs in the format of ed scripts (VERY rare!)
+depends-on: ed
+
+# Remove the man page from the man1 directory.
+# Now they are installed into the cat1 directory.
+builtin-post-install-script: command:\
+ rm -f /dev/env/DJDIR/man/man1/patch.1

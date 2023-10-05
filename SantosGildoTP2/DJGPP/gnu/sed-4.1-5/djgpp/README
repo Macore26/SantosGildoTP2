@@ -1,0 +1,139 @@
+This is a port of GNU Sed 4.1.5 to MSDOS/DJGPP.
+
+1.:     DJGPP specific changes.
+        =======================
+
+      - If this sources are compiled with djdev204 (2004-11-25) or prior
+        faulty code for the e (evaluate) command will be produced due to a
+        bug in the popen() and pclose() code. This has been fixed and this
+        package contains a copy of popen.c from the actual cvs tree of djdev204
+        that will be compiled in to get a working sed binary for use on WinXP.
+        The popen() and pclose() bug only concerns djdev204. If you compile the
+        sources with stock djdev203 then the included popen.c file will be
+        ignored and the popen and pclose functions from djdev203's libc will be
+        used to create the binary.
+        The distributed binaries have been compiled with djdev203.
+      - A patch to open the input stream in binary mode. This will allow to
+        process files that contain embedded ^Z and lone ^M characters.
+      - If you have no DJGPP port of Sed installed and you want to rebuild this
+        package from sources, please read Eli Zaretskii's readme file called:
+        README.ORIG located in the djgpp directory. This explicitely explains
+        how to build the binaries from the source package if no sed executable
+        is installed.
+        As usual, all djgpp specific files (config.bat, diffs, readme files,
+        etc.) are located in the djgpp subdir.
+
+
+2.:     Installing the binary package.
+        ==============================
+
+2.1.:   Copy the binary distribution into the top DJGPP installation directory
+        and unzip it running *ONE* of the following commands:
+          unzip32 sed415b.zip      or
+          djtarx sed415b.zip       or
+          pkunzip -d sed415b.zip
+
+2.2.:   If there is no entry for the sed info docs in your dir file, located
+        info directory, create one running the command:
+          install-info --info-dir=/dev/env/DJDIR/info /dev/env/DJDIR/info/sed.info
+
+        For futher information about GNU Sed please read the info docs and the NEWS file.
+
+
+3.:     Building the binaries from sources.
+        ===================================
+
+3.1.:   To build the binaries you will need the following binary packages:
+          djdev203.zip (patch level 2, see the djdev203.dsm)
+          bsh204b.zip, gcc343b.zip, bnu215b.zip, mak3791b.zip,
+          fil41b.zip, shl2011b.zip, txt20b.zip, txi47b.zip,
+          grep24b.zip, sed3028b.zip and dif281b.zip.
+
+        All this packages can be found in the v2gnu directory of ftp.delorie.com
+        and any mirror. The above cited packages are those ones I have used to
+        build the binaries from this sources. Previuos versions of those packages
+        may do the job as well but I have not tested this.
+
+3.2.:   Create a temporary directory. Copy the source package: sed415s.zip
+        into the directory and unzip it runnig ONE of the following commands:
+          unzip32 sed415s.zip      or
+          djtarx sed415s.zip       or
+          pkunzip -d sed415s.zip
+
+3.3.:   This package does not have NLS support.
+        Due to difficulties with djdev204 (2004-11-25) to config.bat files are
+        distributed. The normal one called:
+          config.bat
+        must be used to configure the sources if you are using stock djdev203.
+        The second one called:
+          xp-config.bat
+        must be used if you are configuring the sources with djdev204. This
+        batch file will include in the to be compiled sources a copy of popen.c
+        from the actual cvs tree of djdev204. This will allow you to generate a
+        working sed binary for WinXP.
+        If for some reason you want to reconfigure the package cd into the top
+        srcdir (sed-4.1-5) and run the following commands:
+          del djgpp\config.cache
+          make distclean
+          djgpp\config  or  djgpp\xp-config
+
+        Please note that you *MUST* delete the config.cache file in the /djgpp
+        subdir or you will not really reconfigure the sources because the
+        configuration informations will be read from the cache file instead
+        of being newly computed.
+        To build the programs in a directory other than where the sources are,
+        you must add the parameter that specifies the source directory,
+        e.g:
+          x:\src\gnu\sed-4.1-5\djgpp\config x:/src/gnu/sed-4.1-5
+        or:
+          x:\src\gnu\sed-4.1-5\djgpp\xp-config x:/src/gnu/sed-4.1-5
+
+        Lets assume you want to build the binaries in a directory placed on a
+        different drive (z:\build in this case) from where the sources are,
+        then you will run the following commands:
+          z:
+          md \build
+          cd \build
+          x:\src\gnu\sed-4.1-5\djgpp\config x:/src/gnu/sed-4.1-5
+        or:
+          x:\src\gnu\sed-4.1-5\djgpp\xp-config x:/src/gnu/sed-4.1-5
+
+        The order of the options and the srcdir option does not matter. You
+        *MUST* use forward slashes to specify the source directory.
+
+        The batch file will set same environment variables, make MSDOS specific
+        modifications to the Makefile.ins and supply all other needed options
+        to the configure script.
+
+
+3.4.:   To compile the package run from the top srcdir the command:
+          make
+
+3.5.:   Now you can run the tests if you like. From the top srcdir run the
+        command:
+          make check
+
+        No one of the tests should fail no matter if you have used stock djdev203
+        or beta djdev204.
+
+3.6.:   To install the binary, info docs and man pages run the following command
+        from the top srcdir:
+          make install
+
+        This will install the products into your DJGPP installation tree given
+        by the default prefix "/dev/env/DJDIR". If you prefer to install them
+        into some other directory you will have to set prefix to the appropiate
+        value.
+        Example:
+          make install prefix=z:/some/other/dir
+
+
+
+
+        Send sed specific bug reports to <bug-gnu-utils@gnu.org>.
+        Send suggestions and bug reports concerning the DJGPP port
+        to comp.os.msdos.djgpp or <djgpp@delorie.com>.
+
+Enjoy.
+
+          Guerrero, Juan Manuel <juan.guerrero@gmx.de>

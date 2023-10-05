@@ -1,0 +1,139 @@
+This is a port of GNU Gzip 1.3.9 to MSDOS/DJGPP.
+
+1.:     DJGPP specific changes.
+        =======================
+
+      - This port is completely based on Eli Zaretskii's port of GNU Gzip 1.2.4a
+        (aka gzp124a?.zip). The means, that all the djgpp specific funtionality
+        introduced with gzp124a?.zip will also be available in this new port.
+      - This port is based on the alpha release of GNU Gzip available at:
+             <ftp://alpha.gnu.org/gnu/gzip/gzip-1.3.9.tar.gz>
+      - All the changes done to the original distribution are documented in the
+        diffs file and located together with all the files needed to configure
+        the package (config.bat, config.sed and config.site) in the djgpp subdir.
+
+        This is a recompilation of all new features introduced with gzp124a?
+        and also available in this port:
+      - Gzip now fully supports long file names on those platforms where DJGPP
+        can access them. This means, for example, that compressing `foo.tar' on
+        Windows 9X will produce `foo.tar.gz', not `foo.tgz'.
+        For backward compatibility, Gzip knows about butchered DOS-style
+        extensions of compressed files even when long file names are supported.
+        For example, if you have `foo.tgz' and you type "gunzip foo.tar", Gzip
+        will find the file even on Windows 9X. Short variants of compressed
+        extensions are checked *after* the long ones, so Gzip will try to find
+        `foo.tar.gz' before `foo.tgz'.
+        Long file name support is checked for each file submitted to Gzip, so
+        it will treat each one of them in accordance with the properties of the
+        file system where that file resides. In other words, you can compress
+        files that reside on DOS and Windows file systems within a single Gzip
+        command.
+      - Gzip will no longer appear to hang when its input comes from the console
+        device. Previous ports would hang when the user typed "gzip -f [Enter]".
+        This port allows you to either interrupt the program with Ctrl-C (if you
+        typed that command by mistake), or type in the input and end it with a ^Z
+        (if you really mean to compress the text you type from the keyboard).
+        This is done by avoiding to switch the console device to binary mode,
+        so any console reads are now done in text mode.
+      - The default compressed file extension is now `.gz', not `z'. This is so
+        that compressed file names on Windows 9X would have the usual `.gz'
+        extension, but it also means that `foo.cc' will now be compressed into
+        `foo.cgz' when long file names are not supported.  Use the -N option to
+        `gunzip' to restore the original name, if the original file name had
+        more than one character in the extension.
+      - When restoring original file names, `gunzip' now converts all characters
+        that are not allowed in DOS/Windows file names to similar but valid
+        characters, and changes the file name if it is reserved by a DOS device
+        driver (like `aux.text' or `prn.tar') by prepending an underscore to it.
+      - In previous ports, uncompressing files with certain names on Windows 9X
+        when numeric tails are disabled would trigger false warnings about file
+        name truncation. This is now fixed.
+      - Truncation of long file names on plain DOS is somewhat smarter now:
+        `gunzip' treats several additional characters (like `-' and `_') as
+        part delimiters.
+      - Shell scripts `zmore', `zdiff', `zgrep' and others now work on DOS and
+        Windows, and are distributed with the binary distribution, as are all
+        the man pages supplied with the official GNU sources.
+
+
+2.:     Installing the binary package.
+        ==============================
+
+2.1.:   Copy the binary distribution into the top DJGPP installation directory
+        and unzip it running *ONE* of the following commands:
+          unzip32 gzip139b.zip      or
+          djtarx gzip139b.zip       or
+          pkunzip -d gzip139b.zip
+
+        For futher information about GNU Gzip please read the info docs,
+        man pages and the README, NEWS and ChangeLog files.
+
+
+3.:     Building the binaries from sources.
+        ===================================
+
+3.1.:   To build the binaries you will need the following binary packages:
+          djdev203.zip (NOT a prior version)
+          bsh204b.zip gcc343b.zip, bnu215b.zip,
+          mak3791b.zip, fil41b.zip, shl112b.zip,
+          txt20b.zip, txi47b.zip, grep24b.zip
+          and sed412b.zip.
+
+
+        All this packages can be found in the v2gnu directory of any
+        Simtel.NET mirror.
+        Later versions of all these packages will to the job as well.
+
+3.2.:   Create a temporary directory. Copy the source package: gzip139s.zip
+        into the directory and unzip it runnig ONE of the following commands:
+          unzip32 gzip139s.zip      or
+          djtarx gzip139s.zip       or
+          pkunzip -d gzip139s.zip
+
+3.3.:   This package is already preconfigured for djdev203. To compile the
+        sources run the command:
+          make
+
+        To install the products run the command:
+          make install
+
+        This will install the products into your DJGPP directory tree specified
+        by the value of DJDIR. If you prefer to install into some other dir,
+        then run the following command:
+          make install prefix=z:/some/other/dir
+
+        This will install the products into the directory specified by the value
+        of prefix.
+
+3.4.:   If for some reason you want to reconfigure the package, change into the
+        top srcdir (gzip-1.3-9), delete the config.cache file located in the
+        djgpp subdir and run the following commands:
+          make distclean
+          djgpp\config
+
+        Please note that you MUST delete the config.cache file or you will not
+        be reconfiguring your package because the configuration informations
+        will be read from the cache file instead of being newly computed.
+        To build the programs in a directory other than where the sources are,
+        you must add the parameter that specifies the source directory,
+        e.g:
+          x:\src\gnu\gzip-1.3-9\djgpp\configdj x:/src/gnu/gzip-1.3-9
+
+        Lets assume you want to build the binaries in a directory placed on a 
+        different drive (z:\build in this case) from where the sources are,
+        then you will run the following commands:
+          z:
+          md \build
+          cd \build
+          x:\src\gnu\gzip-1.3-9\djgpp\config x:/src/gnu/gzip-1.3-9
+
+
+
+
+        Send gzip specific bug reports to <bug-gzip@gnu.org>.
+        Send suggestions and bug reports concerning the DJGPP port
+        to comp.os.msdos.djgpp or <djgpp@delorie.com>.
+
+Enjoy.
+
+          Guerrero, Juan Manuel <juan.guerrero@gmx.de>

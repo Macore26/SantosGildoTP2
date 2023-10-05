@@ -1,0 +1,63 @@
+#
+# DSM for GNU indent 2.2.9 binaries.
+# Written by Juan Manuel Guerrero <st001906@hrz1.hrz.tu-darmstadt.de> 2004-04-07
+#
+
+dsm-file-version: 1.0
+dsm-name: ind229b
+dsm-version: 0.4.0
+dsm-type: sources
+
+dsm-author: Juan Manuel Guerrero
+dsm-author-email: st001906@hrz1.hrz.tu-darmstadt.de
+
+name: indent
+version: 2.2.9
+manifest: ind229b
+sources-dsm: ind229s
+documentation-dsm: ind229d
+short-description: Sources for GNU indent version 2.2.9
+long-description: A C language source code beautifier
+
+license: GNU GPL
+# author.
+author: Jim Kingdon
+# author.
+author: Joseph Arceneaux
+# author.
+author: Carlo Wood
+# This is the current maintainer (until we have a maintainer: tag).
+author: David Ingamells
+author-email: indent@dingamells.fsnet.co.uk
+# For reporting bugs
+mailing-list: bug-indent@gnu.org
+# The home page of GNU indent.
+web-site:http://www.gnu.org/software/indent
+# The ftp site of GNU indent.
+ftp-site:ftp://ftp.gnu.org/pub/gnu/indent
+# For discussing DJGPP- and DOS/Windows-specific aspects
+mailing-list: djgpp@delorie.com
+newsgroup: comp.os.msdos.djgpp
+
+porter: Juan Manuel Guerrero
+porter-email: st001906@hrz1.hrz.tu-darmstadt.de
+
+simtelnet-path: v2gnu/
+zip: ind229b.zip
+
+changelog: gnu/indent-2.2-9/ChangeLog
+
+pre-install-readme: gnu/indent-2.2-9/djgpp/README
+
+requires: DPMI 0.9
+replaces: indent < 2.2.9
+
+# For reading the docs.
+depends-on: info-reader
+depends-on: man
+depends-on: less
+
+# This updates the info/DIR main menu
+builtin-post-install-script: command:\
+ install-info --info-dir=/dev/env/DJDIR/info --section="From indNNNb.zip"\
+ /dev/env/DJDIR/info/indent.info

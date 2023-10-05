@@ -1,0 +1,13 @@
+# ~/.bashrc
+
+if [ "$PS1" != "" ]; then
+  # setting for interactive shell
+  CVSROOT=/usr/src/master
+  EDITOR='mule -w'
+  CDPATH="${HOME}/work;${HOME}"
+  TMPDIR=/tmp
+  export CVSROOT EDITOR CDPATH TMPDIR
+
+  alias ls='ls -F'
+  history_control=ignoredups
+fi

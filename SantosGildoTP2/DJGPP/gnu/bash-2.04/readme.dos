@@ -1,0 +1,214 @@
+This is a *beta* DOS/DJGPP port of GNU Bash 2.04. This document covers issues
+specific to DJGPP. 
+
+Contents
+========
+
+1. Installing the binary
+2. DJGPP port specific changes
+3. DJGPP port specific changes from 2.03
+4. DJGPP port specific changes from 1.14.7
+5. Building from sources
+6. Thanks
+
+Installing the binary
+=====================
+
+Unzip the binary package with the option to preserve directories 
+(the -d option in PKUNZIP, the -directories option in PKZIP 2.5)
+from the top of your DJGPP directory tree.
+
+To add a menu item for Bash to Info's default menu listing, run
+instinfo.bat in the gnu/bash-2.04/dos directory.
+
+You should at the very least read README, NEWS, CHANGES, and doc/FAQ. If you
+are upgrading from Bash 1.14.7, I also recommend you read COMPAT to learn
+about the incompatibilities between 1.14.7 and 2.04.
+
+If you will be using Bash to build GNU packages or other any packages that
+assume the presence of Unix utilities, you should also download and install
+Fileutils, Textutils, Sh-utils, Grep, Diffutils, Findutils, Sed, and Gawk.
+
+DJGPP port specific changes
+===========================
+
+* TMPDIR environment variable:
+  Contains the directory where temporary files will be stored. This must
+  point to an existing directory or Bash will abort with an error
+  message on startup. If 'TMPDIR' does not exist, Bash will then check
+  'TEMP', 'TMP'. If none of those variables are defined, or if they all
+  point to a directory that don't exist, then 'c:/tmp' or the working
+  directory at startup will be will be used as the temporary directory.
+  The temporary directory must be on a writable device like a hard drive
+  or a RAM disk, and not on a read-only device like a CD-ROM drive.
+  Otherwise, features that rely on temporary files like piping and
+  command substitution won't work and will cause Bash to quit with
+  error messages such as "bad piping" or
+  "cannot make pipe for process substitution". Bash will set TMPDIR
+  to the temporary directory it finds. Then use 'echo $TMPDIR' to
+  print the directory found.
+
+* PATH_SEPARATOR variable (default is ';'):
+  Contains the character that separates path elements in the environment
+  variables PATH, CDPATH, HOME, PWD, OLDPWD, MAILPATH. When not set or
+  set to ';', paths are not changed. When set to ':', the paths are stored
+  in the form '/dev/x/dir/file' where 'x' is a drive letter. The paths in
+  the affected variables are always translated back to DOS style
+  drive letter format and separated by ';' for all external programs
+  called by Bash.
+
+* Automatic conversions PATH_SEPARATOR:
+  Inside COMMAND.COM:
+  PATH=D:\ALPHA\BIN;C:\DJGPP\BIN;C:\BIN;C:\MULE2\BIN
+
+  Inside bash.exe (by default):
+  PATH=D:/ALPHA/BIN;C:/DJGPP/BIN;C:/BIN;C:/MULE2/BIN
+
+  Note that child process always gets the COMMAND.COM style. This feature
+  affects PWD, OLDPWD, HOME, PATH, CDPATH, MAILPATH.
+
+* PATH_EXPAND variable (default is 'N'):
+  When set to 'y' or 'Y', non-quoted arguments for external commands that
+  contain the special '/dev/' filenames are changed to their canonical form
+  before the arguments are passed to the external command.
+
+  When PATH_EXPAND=N:
+  bash-2.04$ ls '/dev/c/djgpp/bin' /dev/c/djgpp/info
+  argv[0]: ls
+  argv[1]: /dev/c/djgpp/bin
+  argv[2]: /dev/c/djgpp/info
+
+  When PATH_EXPAND=Y:
+  bash-2.04$ ls '/dev/c/djgpp/bin' /dev/c/djgpp/info
+  argv[0]: ls
+  argv[1]: /dev/c/djgpp/bin
+  argv[2]: c:/djgpp/info
+
+* TEST_FINDS_EXE variable (default is 'N'):
+  Along with PATH_SEPARATOR and PATH_EXPAND, helps configure scripts
+  run as-is without having to edit them or regenerate them with
+  the DJGPP version of Autoconf. If TEST_FINDS_EXE is set to 'y' or 'Y'
+  and if 'test -f' fails to find the file and if the file has no extension
+  and if the path to the file is absolute, then the test is retried with
+  '.exe' added to the filename. This variable should *only* be used when
+  configuring a package and is not on by default.
+
+* Drive names are handled correctly.
+
+* Executables are found by searching for extensions in this order:
+  .com, .exe, .bat, .btm, .sh, .ksh, .pl, .sed
+  ls -> ls, ls.com, ls.exe, ls.bat, ls.btm, ls.sh, ls.ksh, ls.pl, ls.sed
+
+* Bash startup/shutdown files have SFN alternatives:
+  ~/.inputrc       ->  ~/_inputrc         (startup file for readline)
+  ~/.profile       ->  ~/_profile
+  ~/.bashrc        ->  ~/_bashrc          (startup file for bash.exe)
+  ~/.bash_profile  ->  ~/_bash_profile
+  ~/.bash_profile  ->  ~/_bprof
+  ~/.bash_login    ->  ~/_bash_login
+  ~/.bash_login    ->  ~/_blogin
+  ~/.bash_logout   ->  ~/_bash_logout
+  ~/.bash_logout   ->  ~/_blogout
+
+  The LFN version always will be searched before the SFN alternative.
+
+* The arrow keys have been enabled.
+  See _inputrc in djgpp directory. Thanks to Jerzy Witkowski.
+
+  Prefixes:
+    \e[  Keys without SHIFT, CTRL, or ALT.
+    \e[1  With SHIFT key
+    \e[2  With CTRL key
+    \e[3  With ALT key
+
+  Suffixes:
+    A  Up				G  Home
+    B  Down                             H  End
+    C  Right                            I  Page Up
+    D  Left                             J  Page Down
+    E  Ins				X  (reserved for function keys)
+    F  Del
+
+    XA  F1				XG  F7
+    XB  F2				XH  F8
+    XC  F3				XI  F9
+    XD  F4				XJ  F10
+    XE  F5				XK  F11
+    XF  F6				XL  F12
+
+  (e.g.)
+    F1 key          ->  \e[XA
+    CTRL + F10 key  ->  \e[2XJ
+    Up arrow key    ->  \e[A
+
+  Default arrow key bindings:
+    "\e[A": previous-history
+    "\e[B": next-history
+    "\e[C": forward-char
+    "\e[D": backward-char
+
+* The default name of the Bash history file is '_bhist'.
+
+* Sample _inputrc, _bashrc, _blogin, and _blogout files are included
+  in the gnu/bash-2.04/dos directory. Copy the ones you wish to use to the directory
+  specified by HOME so Bash can find them. You should probably at least
+  copy _inputrc so the "Insert", "Delete", etc. keys will work.
+
+* The script `rundos.sh' in can be used to execute .bat, .com, and other
+  DOS/Windows programs which don't understand forward slashes, from
+  inside bash.  The script converts forward slashes to backslashes so that
+  the pathnames passed to DOS programs are complete and correct.  From bash,
+  type "rundos foo arguments..." to execute the program `foo'.
+
+* If you use GNU Info, run the batch file `instinfo.bat' to install the
+  dir-entry for bash into the top-level `dir' file of your system.
+
+* The file 'diffs.dos' in bsh204s.zip contains the changes made to the
+  official source distribution for the DJGPP port.
+
+DJGPP port specific changes from 2.03
+=====================================
+
+* SYSROOT and PATH_SLASH no longer function.
+* The path used by 'command -p' is now '/dev/env/DJDIR/bin'.
+* /usr is no longer handled specially.
+
+DJGPP port specific changes from 1.14.7
+=======================================
+
+* Bash is no longer confused by mixed EOL types in shell scripts.
+* If a search for a command in the '/bin' directory fails, the PATH
+  will be searched too.
+* _bhist is now the default filename for saving the history.
+* The unshifted encodings for the arrow keys were changed to values
+  compatible with GNU Readline.
+* The exit code from a subshell is now returned to the parent.
+
+Building from sources
+=====================
+
+You will need:
+
+* a Bash binary
+* the GCC compiler and Binutils
+* rm, ln, mv, cp, and possibly others from the Fileutils
+* sed
+* cmp from Diffutils
+* DJGPP v2.03 or later
+* the Findutils
+
+Unzip the source archive with the option to preserve directories 
+(the -d option in the old PKUNZIP, the -directories option in newer
+versions of PKZIP) from the top of your DJGPP directory tree. Install
+the Bash binary and required utilities if you haven't already done so.
+
+Run 'sh configure [options]' where [options] are the command-line options
+the Bash version of configure supports. To build, run 'make'.
+
+Thanks
+======
+
+Thanks to Daisuke Aoyama for his work in porting Bash 1.14.7. Without it,
+this port wouldn't be possible. Thanks to Teun Burgers, Eli Zaretskii,
+Jeff Williams, Robert van der Boon, Michel de Ruiter, Tim Van Holder, and
+everyone else for finding and reporting bugs they found.

@@ -1,0 +1,139 @@
+This is a port of GNU Indent 2.2.9 to MSDOS/DJGPP.
+
+1.:     DJGPP specific changes.
+        =======================
+
+      - The profole file name has been modified from `.indent.pro' to `indent.pro'.
+      - Indent generate numbered backups if the used OS supports long file names.
+        As usual, all djgpp specific files (config.bat, diffs, readme files,
+        etc.) are located in the djgpp subdir.
+
+
+2.:     Installing the binary package.
+        ==============================
+
+2.1.:   Copy the binary distribution into the top DJGPP installation directory
+        and unzip it running *ONE* of the following commands:
+          unzip32 ind229b.zip      or
+          djtarx ind229b.zip       or
+          pkunzip -d ind229b.zip
+
+2.2.:   If there is no entry for the indent info docs in your dir file, located
+        info directory, create one running the command:
+          install-info --info-dir=/dev/env/DJDIR/info /dev/env/DJDIR/info/indent.info
+
+        For futher information about GNU Indent please read the info docs.
+        Indent has *a lot* of options, so you should study them carefully
+        to tailor them to your personal preferences and coding style.
+        (If you prefer the GNU indentation style, most options are already
+        set for you by default.)
+
+2.3.:   If you want to make your style preferences the default, consider
+        creating your own profile file.  This is called `indent.pro' and
+        should be either in the current directory or in your ``home''
+        directory. The former option allows for each project to have its
+        own indentation style, while the latter is a vehicle to set a global
+        default. Since MS-DOS systems generally don't have home directories
+        for users, you will need to set the environment variable HOME to
+        point to the directory where your `indent.pro' is kept. I suggest to
+        define it on your DJGPP.ENV file, like so:
+
+       [indent]
+       HOME=%DJDIR%/share
+
+       This defines the value of HOME only for `indent', so it won't
+       interfere with any other programs which use that variable.
+       After editing DJGPP.ENV, make sure the directory `share' indeed
+       exists under the root of DJGPP installation tree, then put your
+       `indent.pro' into that directory.
+
+       (Note that the above two lines should also be flushed to the
+       left margin, or else they won't work.)
+
+
+3.:     Building the binaries from sources.
+        ===================================
+
+3.1.:   To build the binaries you will need the following binary packages:
+          djdev203.zip (patch level 1, see the djdev203.dsm)
+          bsh204b.zip, gcc331b.zip, bnu213b.zip, mak3791b.zip,
+          fil41b.zip, shl2011b.zip, txt20b.zip, txi46b.zip,
+          grep24b.zip, sed409b.zip, dif28b.zip, gprf301b.zip
+          and tx2h164b.zip
+
+        All this packages can be found in the v2gnu directory of ftp.delorie.com
+        and any mirror. The above cited packages are those ones I have used to
+        build the binaries from this sources. Previuos versions of those packages
+        may do the job as well but I have not tested this.
+
+3.2.:   Create a temporary directory. Copy the source package: ind229s.zip
+        into the directory and unzip it runnig ONE of the following commands:
+          unzip32 ind229s.zip      or
+          djtarx ind229s.zip       or
+          pkunzip -d ind229s.zip
+
+3.3.:   This package does not have NLS support.
+        If for some reason you want to reconfigure the package cd into the top
+        srcdir (indent-2.2-9) and run the following commands:
+          del djgpp\config.cache
+          make distclean
+          djgpp\config
+
+        Please note that you *MUST* delete the config.cache file in the djgpp
+        subdir or you will not really reconfigure the sources because the
+        configuration informations will be read from the cache file instead
+        of being newly computed.
+        To build the programs in a directory other than where the sources are,
+        you must add the parameter that specifies the source directory,
+        e.g:
+          x:\src\gnu\indent-2.2-9\djgpp\config x:/src/gnu/indent-2.2-9
+
+        Lets assume you want to build the binaries in a directory placed on a
+        different drive (z:\build in this case) from where the sources are,
+        then you will run the following commands:
+          z:
+          md \build
+          cd \build
+          x:\src\gnu\indent-2.2-9\djgpp\config x:/src/gnu/indent-2.2-9
+
+        The order of the options and the srcdir option does not matter. You
+        *MUST* use forward slashes to specify the source directory.
+
+        The batch file will set same environment variables, make MSDOS specific
+        modifications to the Makefile.ins and supply all other needed options
+        to the configure script.
+
+
+3.4.:   To compile the package run from the top srcdir the command:
+          make
+
+3.5.:   Now you can run the tests if you like. Cd from the top srcdir into the
+        regression dir and run the command:
+          sh ./TEST
+
+        Non test should fail.
+        Please note that the testsuit does not work on plain DOS. There are no
+        intensions to fix this issue.
+
+3.6.:   To install the binary, info docs and man pages run the following command
+        from the top srcdir:
+          make install
+
+        This will install the products into your DJGPP installation tree given
+        by the default prefix "/dev/env/DJDIR". If you prefer to install them
+        into some other directory you will have to set prefix to the appropiate
+        value.
+        Example:
+          make install prefix=z:/some/other/dir
+
+3.7.:   If you like follow the suggestions given in 2.3.
+
+
+
+        Send sed specific bug reports to <bug-indent@gnu.org>.
+        Send suggestions and bug reports concerning the DJGPP port
+        to comp.os.msdos.djgpp or <djgpp@delorie.com>.
+
+Enjoy.
+
+          Guerrero, Juan Manuel <st001906@hrz1.hrz.tu-darmstadt.de>

@@ -1,0 +1,12 @@
+#Graph.h eh a biblioteca que contem a declaracao ndas funcoes 
+#Graph.c contem a implementacao fdas funcoes
+#Main.c representa o Main que faz o uso da biblioteca Graph.h
+
+Main.exe: Main.o Graph.o
+	gcc Main.o Graph.o -o Main.exe
+
+Graph.o: Graph.c 
+			gcc -w -c Graph.c
+
+Main.c: Main.c
+			gcc -w -c Main.c

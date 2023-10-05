@@ -1,0 +1,7 @@
+Version 1.3
+
+  - Docs supplied as a man page.
+  - Portability to Borland C, courtesy of Erwin Waterlander,
+    waterlan@xs4all.nl or erwin.waterlander@philips.com.
+  - Fixed bugs with memory allocations.
+  - More tidy error messages.

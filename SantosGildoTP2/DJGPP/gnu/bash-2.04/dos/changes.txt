@@ -1,0 +1,124 @@
+This document lists the user visible changes made to this port of
+Bash 2.04 for DJGPP. 
+
+Changes for May 10, 2001:
+
+* Fixed 'set -e' incorrectly causing a subshell's parent to exit
+  when a command fails.
+* Fixed memory leak when executing disk commands.
+* Fixed spaces not being quoted in command completion.
+
+Changes for March 29, 2001:
+
+* Fixed ".com" files always returning a zero return code when LFN=Y.
+
+Changes for March 26, 2001:
+
+* Fixed 'cd /foo' not correctly setting PWD.
+
+Changes for February 12, 2001:
+
+* Fixed 'cd x:' and 'cd x:foo'.
+* Fixed crash in 'cd' when 'PATH_SEPARATOR=:'.
+
+Changes for February 9, 2001:
+
+* A script with a non executable extension can now be run when LFN=N.
+
+Changes for January 15, 2000:
+
+* A non-zero return code from a command substitution was ignored.
+
+Changes for January 10, 2000:
+
+* Fixed generation of response file.
+* Executable suffix search now re-includes .sh, .ksh, .pl, .sed, and .awk.
+* TMPDIR is transformed like PATH, HOME, etc.
+
+Changes for August 25th, 2000:
+
+* Fixes to allow path completion on drivers other than the current one.
+
+Changes for August 23rd, 2000:
+
+* Fixed quoted here documents not working under plain DOS.
+
+Changes for July 8th, 2000:
+
+* An error message is printed if a temporary file can't be removed.
+
+Changes for July 3rd, 2000:
+
+* Fixed $0 not containing forward slashes when scripts started with
+  '#! prog' where prog was a filename with no path.
+
+Changes for June 5th, 2000:
+
+* The exec builtin wasn't handling /bin/*.
+
+Changes for June 1st, 2000:
+
+* If Bash finds a '/bin' directory but not the program it's searching for,
+  it searches for the file in the PATH. Before, the /bin had to not exist
+  for the PATH to be searched.
+
+Changes for May 30th, 2000:
+
+* No longer adds a dot to commands not having a dot ('configure' no longer
+  becomes 'configure.').
+
+Changes for May 29th, 2000:
+
+* A null command would exit if at the end of a pipeline.
+
+Changes for May 23rd, 2000:
+
+* Fixed not searching for extensions when a disk command contains an
+  absolute path.
+
+Changes for May 22nd, 2000:
+
+* Corrected a problems that can cause an infinite loop inside scripts that
+  use 'read'.
+
+Changes for May 18th, 2000:
+
+* Fixed crashes when PATH_EXPAND=Y.
+
+Changes for May 8th, 2000:
+
+* Prevent 'echo "!? ?$"' from crashing Bash.
+
+Changes for May 2nd, 2000:
+
+* Installed Bash 2.04 patches 5, 6, and 7. See bashfix.txt for details.
+
+Changes for April 23rd, 2000:
+
+* Use the DPMI selector leak fix from Bash 2.03.
+
+Changes for April 22nd, 2000:
+
+* Fix crash with command substitution.
+
+Changes for April 21st, 2000:
+
+* Fix problem with temporary files not being deleted in a certain case.
+
+Changes for April 19th, 2000:
+
+* Fix problem with creating temporary files for here document.
+
+Changes for April 12th, 2000:
+
+* Fix crash when using pipe inside command substitution.
+
+Changes for April 5th, 2000:
+* Install Bash 2.04 patches 1, 2, 3, and 4. See bashfix.txt for details.
+
+Changes for March 26th, 2000:
+* Fixed pipes not working after the first use.
+
+Changes for March 23rd, 2000:
+* Initial port. Variables PATH_EXPAND, SYSROOT, and PATH_SLASH no longer
+  special. '/usr' no longer treated like '/bin'.
