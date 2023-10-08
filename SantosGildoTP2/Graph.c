@@ -39,11 +39,11 @@ char *enter_graphics(int mode, __dpmi_meminfo map)
 void leave_graphics(__dpmi_meminfo map)
 {
 	__dpmi_regs regs;
-	;											/*__dpmi_regs � uma estrutura que representa os registos do CPU */
+	;											/*__dpmi_regs é uma estrutura que representa os registos do CPU */
 	__dpmi_free_physical_address_mapping(&map); /* liberta mapeamento */
 	__djgpp_nearptr_disable();
 	regs.x.ax = 0x0003;		 /* registo AX do CPU com valor 0x03 */
-	__dpmi_int(0x10, &regs); /* gera interrup��o software 0x10, entrando no modo texto */
+	__dpmi_int(0x10, &regs); /* gera interrupção software 0x10, entrando no modo texto */
 }
 
 void set_pixel(int x, int y, int color, char *base)
@@ -129,8 +129,7 @@ void draw_line(int xi, int yi, int xf, int yf, int color, char *base)
 		}
 		else
 		{
-			for (i = 0; i < x; i++)
-			{
+			for (i = 0; i < x; i++){
 				aux_y = yf - porp_cresc * i;
 				aux_x = xi + i;
 				set_pixel(aux_x, aux_y, color, base);
