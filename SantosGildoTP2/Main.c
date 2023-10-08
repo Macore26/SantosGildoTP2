@@ -29,8 +29,6 @@ int menu();
 
 int main()
 {
-
-  
     do{
 		  int escolha = menu();
 		
@@ -86,7 +84,7 @@ int menu(){
 	void desenhaBandeira()
 	{
 
-		int modo;
+		int modo=0;
 			
 		printf("\n\nESTA FUNCAO DESENHA BANDEIRA DE Namibia\n\n");
 		menu_modo();
@@ -122,7 +120,6 @@ void escrever_pixel()
 
     verifica_cordenadas(&x,&y);
 	
-
     entrar_modo_grafico(modo);
     set_pixel(x,y,color,memoria);
 	scanf("%d", &y);
@@ -179,8 +176,7 @@ int verifica_modo(int modo)
 //---------------------------------------------------------------------------------------------------------------------------------
 void menu_modo()
 {
-    
-   
+       
     printf("    101: para resulucao 640x480\n");
     printf("    103: para resulucao 800x600\n");
     printf("    105: para resulucao 1024x786\n");
@@ -206,14 +202,10 @@ void verifica_cor(int *color)
     system("cls");
     printf("\nESTA FUNCAO ESCREVE UM pixel NO MODO GrAFICO \n\n");
 
-   
 	menu_modo();
 	modo=verifica_modo(modo);
 	entrar_modo_grafico(modo);
-  
-	
-    
-    
+  	   
     printf("introduza a cor que deseja que o pixel tenha: 1-256");
     scanf("%d",&color);
 	verifica_cor(&color);
