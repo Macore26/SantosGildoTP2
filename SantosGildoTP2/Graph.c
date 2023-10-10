@@ -29,7 +29,7 @@ char *enter_graphics(int mode, __dpmi_meminfo map)
 	__dpmi_int(0x10, &regs); /* gera interrup��o de software 0x10, activando o modo gr�fico */
 
 	__djgpp_nearptr_enable();			   /* permite acesso � mem�ria f�sica usando apontadores */
-	map.address = 0xC0000000;			   /* endere�o f�sico da mem�ria v�deo, usar o valor correcto */
+	map.address = 0xC0000000;			   /* endereço físico da mem�ria v�deo, usar o valor correcto */
 	map.size = HRES * VRES;				   /* tamanho do bloco de mem�ria, usar apenas o necess�rio */
 	__dpmi_physical_address_mapping(&map); /*Tamanho da tela escolhida HResxVRes*/
 
