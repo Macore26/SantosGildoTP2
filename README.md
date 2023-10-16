@@ -262,3 +262,24 @@ void verifica_cordenadas(int *x ,int *y)
 }
 # SantosGildoTP2
 TP2
+Aqui está uma breve descrição do que cada função faz:
+
+verifica_cordenadas(int *x, int *y): Esta função verifica se as coordenadas x e y estão dentro dos limites do modo gráfico escolhido (definido anteriormente em HRES e VRES). Se estiverem fora dos limites, solicita que o usuário insira novas coordenadas até que estejam dentro dos limites.
+
+escrever_pixel(): Esta função permite ao usuário especificar uma cor, coordenadas x e y, entra no modo gráfico selecionado e desenha um pixel na tela com a cor especificada nas coordenadas fornecidas.
+
+entrar_modo_grafico(int modo): Entra no modo gráfico especificado e aloca memória para desenhar gráficos.
+
+limpar_tela(): Permite ao usuário escolher uma cor, entra no modo gráfico selecionado e preenche toda a tela com a cor escolhida.
+
+verifica_modo(int modo): Solicita que o usuário insira o modo gráfico desejado (101, 103, 105 ou 107) e verifica se a entrada está dentro das opções válidas. Define a resolução do modo gráfico com base na escolha.
+
+menu_modo(): Apresenta as opções de modos gráficos disponíveis para o usuário.
+
+verifica_cor(int *color): Verifica se a cor fornecida pelo usuário está dentro do intervalo válido (1-256) e solicita que o usuário insira novamente, se não estiver.
+
+desenha_linha(): Permite ao usuário especificar uma cor, coordenadas de início (xi e yi) e coordenadas de fim (xf e yf) para desenhar uma linha no modo gráfico selecionado.
+
+menu(): Apresenta um menu para o usuário escolher entre várias opções, como escrever pixel, desenhar uma linha, limpar a tela, desenhar a bandeira da Namíbia ou sair do programa. Verifica se a escolha é válida (1-4) e retorna a opção selecionada.
+
+main(): A função principal que executa um loop onde o usuário pode escolher várias opções de ações gráficas. O loop é repetido até que o usuário escolha a opção para sair (0).
