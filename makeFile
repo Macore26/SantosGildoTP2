@@ -1,0 +1,12 @@
+#Video.h eh a biblioteca que contem a declaracao ndas funcoes 
+#Video.c contem a implementacao fdas funcoes
+#menu.c representa o menu que faz o uso da biblioteca Video.h
+
+Menu.exe: Menu.o Video.o
+	gcc Menu.o Video.o -o Menu.exe
+
+Video.o: Video.c 
+			gcc -w -c Video.c
+
+Menu.c: Menu.c
+			gcc -w -c Menu.c
